@@ -52,7 +52,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         locateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getGpsLocation();
+                if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+                    getNetworkLocation();
+                }
+                else{
+                    getGpsLocation();
+                }
             }
         });
 
@@ -61,7 +66,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @SuppressLint("MissingPermission")
     private void getGpsLocation(){
+        Log.e("GPS", "GPS location");
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000, 10000, MainActivity.this );
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getNetworkLocation(){
+        Log.e("NETWORK", "Network location");
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,10000,this);
     }
 
     @Override
